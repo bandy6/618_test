@@ -137,6 +137,17 @@ file(GLOB_RECURSE USER_SRC
     ${CMAKE_SOURCE_DIR}/User/*.c
 )
 
+set(OS_LIB
+    ${CMAKE_SOURCE_DIR}/FreeRTOS/croutine.c
+    ${CMAKE_SOURCE_DIR}/FreeRTOS/event_groups.c
+    ${CMAKE_SOURCE_DIR}/FreeRTOS/list.c
+    ${CMAKE_SOURCE_DIR}/FreeRTOS/queue.c
+    ${CMAKE_SOURCE_DIR}/FreeRTOS/tasks.c
+    ${CMAKE_SOURCE_DIR}/FreeRTOS/timers.c
+    ${CMAKE_SOURCE_DIR}/FreeRTOS/portable/GCC/ARM_CM3/port.c
+    ${CMAKE_SOURCE_DIR}/FreeRTOS/portable/MemMang/heap_4.c
+)
+
 # ELF 文件名称
 set(ELF_TARGET ${CMAKE_PROJECT_NAME}.elf)
 
@@ -148,6 +159,7 @@ add_executable(
     ${STARTUP_SCRIPT}
     ${STDPERIPH_DRIVER}
     ${USER_SRC}
+    ${OS_LIB}
 )
 
 # 头文件路径
@@ -157,6 +169,9 @@ target_include_directories(
     ${CMAKE_SOURCE_DIR}/Libraries/STM32F10x_StdPeriph_Driver/inc
     ${CMAKE_SOURCE_DIR}/User
     ${CMAKE_SOURCE_DIR}/User/led
+    ${CMAKE_SOURCE_DIR}/User/submodule_config
+    ${CMAKE_SOURCE_DIR}/FreeRTOS/include
+    ${CMAKE_SOURCE_DIR}/FreeRTOS/portable/GCC/ARM_CM3
 )
     
 
