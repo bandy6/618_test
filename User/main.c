@@ -22,10 +22,25 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f10x.h"
 #include "bsp_led.h"
+#include "FreeRTOS.h"
+#include "task.h"
 
-#define SOFT_DELAY Delay(0x0FFFFF);
 
-void Delay(__IO u32 nCount); 
+TaskHandle_t StartTask_Handler;			// 任务句柄
+
+/* 任务函数 */
+void start_task(void *pvParameters)
+{
+	int i = 1;
+	
+	while (1)
+	{
+    LED1_ON;			  // 亮
+		vTaskDelay(1000);
+		LED1_OFF;		   // 灭
+    vTaskDelay(1000);
+	}
+}
 
 /**
   * @brief  主函数
@@ -36,14 +51,16 @@ int main(void)
 {	
 	/* LED 端口初始化 */
 	LED_GPIO_Config();	 
-
-	while (1)
-	{
-		LED1_ON;			  // 亮
-		SOFT_DELAY;
-		LED1_OFF;		   // 灭
-		SOFT_DELAY;
-	}
+	
+	/* 创建任务 */
+    xTaskCreate((TaskFunction_t )start_task,            // 任务函数
+                (const char*    )"start_task",          // 任务名称
+                (uint16_t       )128,        			      // 任务堆栈大小
+                (void*          )NULL,                  // 传递给任务函数的参数
+                (UBaseType_t    )1,       				      // 任务优先级
+                (TaskHandle_t*  )&StartTask_Handler);   // 任务句柄
+				
+    vTaskStartScheduler();          					          // 开启任务调度
 }
 
 void Delay(__IO uint32_t nCount)	 //简单的延时函数
