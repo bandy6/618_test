@@ -148,6 +148,25 @@ set(OS_LIB
     ${CMAKE_SOURCE_DIR}/FreeRTOS/portable/MemMang/heap_4.c
 )
 
+set(MQTT_CLIENT
+    ${CMAKE_SOURCE_DIR}/mqttclient/common/mqtt_list.c
+    ${CMAKE_SOURCE_DIR}/mqttclient/common/random.c
+    ${CMAKE_SOURCE_DIR}/mqttclient/mqtt/MQTTConnectClient.c
+    ${CMAKE_SOURCE_DIR}/mqttclient/mqtt/MQTTDeserializePublish.c
+    ${CMAKE_SOURCE_DIR}/mqttclient/mqtt/MQTTFormat.c
+    ${CMAKE_SOURCE_DIR}/mqttclient/mqtt/MQTTPacket.c
+    ${CMAKE_SOURCE_DIR}/mqttclient/mqtt/MQTTSerializePublish.c
+    ${CMAKE_SOURCE_DIR}/mqttclient/mqtt/MQTTSubscribeClient.c
+    ${CMAKE_SOURCE_DIR}/mqttclient/mqtt/MQTTUnsubscribeClient.c
+    ${CMAKE_SOURCE_DIR}/mqttclient/mqttclient/mqttclient.c
+    ${CMAKE_SOURCE_DIR}/mqttclient/network/nettype_tcp.c
+    ${CMAKE_SOURCE_DIR}/mqttclient/network/network.c
+    ${CMAKE_SOURCE_DIR}/mqttclient/platform/FreeRTOS/platform_memory.c
+    ${CMAKE_SOURCE_DIR}/mqttclient/platform/FreeRTOS/platform_mutex.c
+    ${CMAKE_SOURCE_DIR}/mqttclient/platform/FreeRTOS/platform_net_socket.c
+    ${CMAKE_SOURCE_DIR}/mqttclient/platform/FreeRTOS/platform_thread.c
+    ${CMAKE_SOURCE_DIR}/mqttclient/platform/FreeRTOS/platform_timer.c
+)
 # ELF 文件名称
 set(ELF_TARGET ${CMAKE_PROJECT_NAME}.elf)
 
@@ -160,6 +179,7 @@ add_executable(
     ${STDPERIPH_DRIVER}
     ${USER_SRC}
     ${OS_LIB}
+    ${MQTT_CLIENT}
 )
 
 # 头文件路径
@@ -172,6 +192,11 @@ target_include_directories(
     ${CMAKE_SOURCE_DIR}/User/submodule_config
     ${CMAKE_SOURCE_DIR}/FreeRTOS/include
     ${CMAKE_SOURCE_DIR}/FreeRTOS/portable/GCC/ARM_CM3
+    ${CMAKE_SOURCE_DIR}/mqttclient/common
+    ${CMAKE_SOURCE_DIR}/mqttclient/mqtt
+    ${CMAKE_SOURCE_DIR}/mqttclient/mqttclient
+    ${CMAKE_SOURCE_DIR}/mqttclient/network
+    ${CMAKE_SOURCE_DIR}/mqttclient/platform/FreeRTOS
 )
     
 
