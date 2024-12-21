@@ -16,7 +16,7 @@
  *  limitations under the License.                                           *
  *                                                                           *
  ****************************************************************************/
-
+#define PLOOC_CFG_REMOVE_MEMORY_LAYOUT_BOUNDARY___USE_WITH_CAUTION___
 
 #if defined(__cplusplus) || defined(__OOC_CPP__)
 #   undef __PLOOC_CLASS_USE_STRICT_TEMPLATE__ 

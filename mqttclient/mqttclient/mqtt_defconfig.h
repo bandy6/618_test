@@ -9,7 +9,7 @@
 #ifndef _DEFCONFIG_H_
 #define _DEFCONFIG_H_
 
-#include "mqtt_config.h"
+//#include "mqtt_config.h"
 
 #ifndef MQTT_LOG_LEVEL
     #define MQTT_LOG_LEVEL                          MQTT_LOG_DEBUG_LEVEL   //MQTT_LOG_WARN_LEVEL MQTT_LOG_DEBUG_LEVEL
@@ -67,6 +67,7 @@
     #define     MQTT_THREAD_TICK                    50
 #endif // !MQTT_THREAD_TICK
 
+#define MQTT_NETWORK_TYPE_NO_TLS   1 // add by bandy 暂时不用tls
 
 #ifndef MQTT_NETWORK_TYPE_NO_TLS
 

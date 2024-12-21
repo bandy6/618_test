@@ -193,6 +193,7 @@ target_include_directories(
     ${CMAKE_SOURCE_DIR}/FreeRTOS/include
     ${CMAKE_SOURCE_DIR}/FreeRTOS/portable/GCC/ARM_CM3
     ${CMAKE_SOURCE_DIR}/mqttclient/common
+    ${CMAKE_SOURCE_DIR}/mqttclient/common/PLOOC
     ${CMAKE_SOURCE_DIR}/mqttclient/mqtt
     ${CMAKE_SOURCE_DIR}/mqttclient/mqttclient
     ${CMAKE_SOURCE_DIR}/mqttclient/network

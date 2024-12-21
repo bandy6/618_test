@@ -11,11 +11,14 @@
 #include "network.h"
 #include "mqtt_error.h"
 
-#include "lwip/opt.h"
-#include "lwip/sys.h"
-#include "lwip/api.h"
-#include <lwip/sockets.h>
-#include "lwip/netdb.h"
+// #include "lwip/opt.h"
+// #include "lwip/sys.h"
+// #include "lwip/api.h"
+// #include <lwip/sockets.h>
+// #include "lwip/netdb.h"
+
+#define size_t unsigned int
+#define socklen_t unsigned int 
 
 #define PLATFORM_NET_PROTO_TCP  0 /**< The TCP transport protocol */
 #define PLATFORM_NET_PROTO_UDP  1 /**< The UDP transport protocol */
