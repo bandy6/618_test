@@ -375,7 +375,8 @@ void vPortEnterCritical( void )
 	assert function also uses a critical section. */
 	if( uxCriticalNesting == 1 )
 	{
-		configASSERT( ( portNVIC_INT_CTRL_REG & portVECTACTIVE_MASK ) == 0 );
+		//这是一个检查当前是否有中断正在执行的方法。portNVIC_INT_CTRL_REG 是 NVIC（嵌套向量中断控制器）的中断控制寄存器
+		configASSERT( ( portNVIC_INT_CTRL_REG & portVECTACTIVE_MASK ) == 0 );  
 	}
 }
 /*-----------------------------------------------------------*/

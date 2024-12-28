@@ -228,7 +228,10 @@ BaseType_t xReturn;
 	return xReturn;
 }
 
-/*-----------------------------------------------------------*/
+/*BASEPRI寄存器用于设置中断屏蔽级别，
+当CPU的中断屏蔽级别高于当前中断的优先级时，该中断将被屏蔽。
+这个函数的作用是将BASEPRI设置为一个特定的值，通常是configMAX_SYSCALL_INTERRUPT_PRIORITY，
+以确保只有优先级高于configMAX_SYSCALL_INTERRUPT_PRIORITY的中断能够打断当前任务。*/
 
 portFORCE_INLINE static void vPortRaiseBASEPRI( void )
 {

@@ -1562,15 +1562,16 @@ static void prvAddNewTaskToReadyList( TCB_t *pxNewTCB )
 /*-----------------------------------------------------------*/
 
 #if ( INCLUDE_vTaskSuspend == 1 )
-
+//创建任务时讲xTaskToSuspend执行任务TCB
 	void vTaskSuspend( TaskHandle_t xTaskToSuspend )
 	{
 	TCB_t *pxTCB;
 
-		taskENTER_CRITICAL();
+		taskENTER_CRITICAL(); //临界区保护，关闭中断
 		{
 			/* If null is passed in here then it is the running task that is
 			being suspended. */
+			/* 如果在此处传递 null，那么它正在被挂起的正在运行的任务。 */
 			pxTCB = prvGetTCBFromHandle( xTaskToSuspend );
 
 			traceTASK_SUSPEND( pxTCB );
@@ -1587,6 +1588,7 @@ static void prvAddNewTaskToReadyList( TCB_t *pxNewTCB )
 			}
 
 			/* Is the task waiting on an event also? */
+			/* 如果在此处传递 null，那么它正在被挂起的正在运行的任务。 */
 			if( listLIST_ITEM_CONTAINER( &( pxTCB->xEventListItem ) ) != NULL )
 			{
 				( void ) uxListRemove( &( pxTCB->xEventListItem ) );
@@ -1606,6 +1608,7 @@ static void prvAddNewTaskToReadyList( TCB_t *pxNewTCB )
 			task that is now in the Suspended state. */
 			taskENTER_CRITICAL();
 			{
+				//查找下一个任务解除阻塞的时间。 如果下个任务的解锁，刚好是被挂起的那个任务，那么就是不正确的了
 				prvResetNextTaskUnblockTime();
 			}
 			taskEXIT_CRITICAL();
@@ -1617,11 +1620,12 @@ static void prvAddNewTaskToReadyList( TCB_t *pxNewTCB )
 
 		if( pxTCB == pxCurrentTCB )
 		{
-			if( xSchedulerRunning != pdFALSE )
+			//xSchedulerRunning 用于指示 FreeRTOS 任务调度器是否已经启动并正在运行
+			if( xSchedulerRunning != pdFALSE ) //在 vTaskStartScheduler() 函数中，会将 xSchedulerRunning 设置为 pdTRUE
 			{
 				/* The current task has just been suspended. */
 				configASSERT( uxSchedulerSuspended == 0 );
-				portYIELD_WITHIN_API();
+				portYIELD_WITHIN_API();  //切换任务
 			}
 			else
 			{
@@ -1638,6 +1642,7 @@ static void prvAddNewTaskToReadyList( TCB_t *pxNewTCB )
 				}
 				else
 				{
+					///* 有其他任务，则切换到其他任务 */
 					vTaskSwitchContext();
 				}
 			}
@@ -1712,7 +1717,7 @@ static void prvAddNewTaskToReadyList( TCB_t *pxNewTCB )
 		{
 			taskENTER_CRITICAL();
 			{
-				if( prvTaskIsTaskSuspended( pxTCB ) != pdFALSE )
+				if( prvTaskIsTaskSuspended( pxTCB ) != pdFALSE )  //判断要恢复的任务是否真的被挂起了
 				{
 					traceTASK_RESUME( pxTCB );
 
@@ -1940,14 +1945,17 @@ void vTaskEndScheduler( void )
 	vPortEndScheduler();
 }
 /*----------------------------------------------------------*/
-
+//将所有的任务都挂起  可以进行嵌套的
 void vTaskSuspendAll( void )
 {
 	/* A critical section is not required as the variable is of type
 	BaseType_t.  Please read Richard Barry's reply in the following link to a
 	post in the FreeRTOS support forum before reporting this as a bug! -
 	http://goo.gl/wu4acr */
-	++uxSchedulerSuspended;
+	//用于记录调度器是否被挂起，该变量默认初始值为 pdFALSE，
+	//表明调度器是没被挂起的，每调用一次 vTaskSuspendAll()函数就将变量
+	//加一，用于记录调用了多少次 vTaskSuspendAll()函数。
+	++uxSchedulerSuspended;  //
 }
 /*----------------------------------------------------------*/
 

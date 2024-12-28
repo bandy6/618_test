@@ -725,7 +725,7 @@ extern "C" {
 #endif
 
 #ifndef configUSE_TIME_SLICING
-	#define configUSE_TIME_SLICING 1
+	#define configUSE_TIME_SLICING 1	//处于就绪态的多个相同优先级任务将会以时间片切换的方式共享处理器
 #endif
 
 #ifndef configINCLUDE_APPLICATION_DEFINED_PRIVILEGED_FUNCTIONS
