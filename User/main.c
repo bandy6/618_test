@@ -3,7 +3,7 @@
   * @file    GPIO/IOToggle/main.c 
   * @author  MCD Application Team
   * @version V3.5.0
-  * @date    08-April-2011
+  * @date    05-1-2025
   * @brief   Main program body.
   ******************************************************************************
   * @attention
@@ -24,13 +24,16 @@
 #include "bsp_led.h"
 #include "FreeRTOS.h"
 #include "task.h"
-
+#include "uart.h"
 
 TaskHandle_t StartTask_Handler;			// 任务句柄
+TaskHandle_t UartTask_Handler;			// 任务句柄
+
 
 /* 任务函数 */
 void start_task(void *pvParameters)
 {
+  (void)pvParameters;
 	int i = 1;
 	
 	while (1)
@@ -42,6 +45,17 @@ void start_task(void *pvParameters)
 	}
 }
 
+void uart_task(void *pvParameters)
+{
+  (void)pvParameters;
+
+	while (1)
+	{
+    	Usart_SendString( USART1,"串口发送test\n");
+      vTaskDelay(2000);
+	}
+}
+
 /**
   * @brief  主函数
   * @param  无  
@@ -49,9 +63,16 @@ void start_task(void *pvParameters)
   */
 int main(void)
 {	
+	/* 嵌套向量中断控制器组选择 */
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
+
 	/* LED 端口初始化 */
 	LED_GPIO_Config();	 
 	
+  /* 串口初始化 */
+  /*初始化USART 配置模式为 115200 8-N-1，中断接收*/
+  uart_init();
+
 	/* 创建任务 */
     xTaskCreate((TaskFunction_t )start_task,            // 任务函数
                 (const char*    )"start_task",          // 任务名称
@@ -59,12 +80,15 @@ int main(void)
                 (void*          )NULL,                  // 传递给任务函数的参数
                 (UBaseType_t    )1,       				      // 任务优先级
                 (TaskHandle_t*  )&StartTask_Handler);   // 任务句柄
+
+	/* 创建串口任务 */
+    xTaskCreate((TaskFunction_t )uart_task,            // 任务函数
+                (const char*    )"uart_task",          // 任务名称
+                (uint16_t       )128,        			      // 任务堆栈大小
+                (void*          )NULL,                  // 传递给任务函数的参数
+                (UBaseType_t    )1,       				      // 任务优先级
+                (TaskHandle_t*  )&UartTask_Handler);   // 任务句柄
+
 				
     vTaskStartScheduler();          					          // 开启任务调度
 }
-
-void Delay(__IO uint32_t nCount)	 //简单的延时函数
-{
-	for(; nCount != 0; nCount--);
-}
-/*********************************************END OF FILE**********************/

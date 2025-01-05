@@ -159,6 +159,16 @@ void DebugMon_Handler(void)
 /**
   * @}
   */
+void USART1_IRQHandler(void) {
+    uint8_t ucTemp;
+  // USART_IT_RXNE 当RDR移位寄存器中的数据被转移到USART_DR寄存器中，该位被硬件置位
+  //对USART_DR的读操作可以将该位清零
+	if(USART_GetITStatus(USART1,USART_IT_RXNE)!=RESET)  //读数据寄存器非空 
+	{		
+		ucTemp = USART_ReceiveData(USART1);
+    USART_SendData(USART1,ucTemp);    
+	}	 
+}
 
 /**
   * @}

@@ -167,6 +167,10 @@ set(MQTT_CLIENT
     ${CMAKE_SOURCE_DIR}/mqttclient/platform/FreeRTOS/platform_thread.c
     ${CMAKE_SOURCE_DIR}/mqttclient/platform/FreeRTOS/platform_timer.c
 )
+
+set(HAL
+    ${CMAKE_SOURCE_DIR}/hal/uart/uart.c
+)
 # ELF 文件名称
 set(ELF_TARGET ${CMAKE_PROJECT_NAME}.elf)
 
@@ -180,6 +184,7 @@ add_executable(
     ${USER_SRC}
     ${OS_LIB}
     ${MQTT_CLIENT}
+    ${HAL}
 )
 
 # 头文件路径
@@ -198,6 +203,7 @@ target_include_directories(
     ${CMAKE_SOURCE_DIR}/mqttclient/mqttclient
     ${CMAKE_SOURCE_DIR}/mqttclient/network
     ${CMAKE_SOURCE_DIR}/mqttclient/platform/FreeRTOS
+    ${CMAKE_SOURCE_DIR}/hal/uart
 )
     
 
