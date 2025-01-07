@@ -138,14 +138,14 @@ file(GLOB_RECURSE USER_SRC
 )
 
 set(OS_LIB
-    ${CMAKE_SOURCE_DIR}/FreeRTOS/croutine.c
-    ${CMAKE_SOURCE_DIR}/FreeRTOS/event_groups.c
-    ${CMAKE_SOURCE_DIR}/FreeRTOS/list.c
-    ${CMAKE_SOURCE_DIR}/FreeRTOS/queue.c
-    ${CMAKE_SOURCE_DIR}/FreeRTOS/tasks.c
-    ${CMAKE_SOURCE_DIR}/FreeRTOS/timers.c
-    ${CMAKE_SOURCE_DIR}/FreeRTOS/portable/GCC/ARM_CM3/port.c
-    ${CMAKE_SOURCE_DIR}/FreeRTOS/portable/MemMang/heap_4.c
+    ${CMAKE_SOURCE_DIR}/components/os_libs/FreeRTOS/croutine.c
+    ${CMAKE_SOURCE_DIR}/components/os_libs/FreeRTOS/event_groups.c
+    ${CMAKE_SOURCE_DIR}/components/os_libs/FreeRTOS/list.c
+    ${CMAKE_SOURCE_DIR}/components/os_libs/FreeRTOS/queue.c
+    ${CMAKE_SOURCE_DIR}/components/os_libs/FreeRTOS/tasks.c
+    ${CMAKE_SOURCE_DIR}/components/os_libs/FreeRTOS/timers.c
+    ${CMAKE_SOURCE_DIR}/components/os_libs/FreeRTOS/portable/GCC/ARM_CM3/port.c
+    ${CMAKE_SOURCE_DIR}/components/os_libs/FreeRTOS/portable/MemMang/heap_4.c
 )
 
 set(MQTT_CLIENT
@@ -169,7 +169,8 @@ set(MQTT_CLIENT
 )
 
 set(HAL
-    ${CMAKE_SOURCE_DIR}/hal/uart/uart.c
+    ${CMAKE_SOURCE_DIR}/hal/uart/bsp_uart.c
+    ${CMAKE_SOURCE_DIR}/hal/led/bsp_led.c
 )
 # ELF 文件名称
 set(ELF_TARGET ${CMAKE_PROJECT_NAME}.elf)
@@ -195,8 +196,8 @@ target_include_directories(
     ${CMAKE_SOURCE_DIR}/User
     ${CMAKE_SOURCE_DIR}/User/led
     ${CMAKE_SOURCE_DIR}/User/submodule_config
-    ${CMAKE_SOURCE_DIR}/FreeRTOS/include
-    ${CMAKE_SOURCE_DIR}/FreeRTOS/portable/GCC/ARM_CM3
+    ${CMAKE_SOURCE_DIR}/components/os_libs/FreeRTOS/include
+    ${CMAKE_SOURCE_DIR}/components/os_libs/FreeRTOS/portable/GCC/ARM_CM3
     ${CMAKE_SOURCE_DIR}/mqttclient/common
     ${CMAKE_SOURCE_DIR}/mqttclient/common/PLOOC
     ${CMAKE_SOURCE_DIR}/mqttclient/mqtt
@@ -204,6 +205,7 @@ target_include_directories(
     ${CMAKE_SOURCE_DIR}/mqttclient/network
     ${CMAKE_SOURCE_DIR}/mqttclient/platform/FreeRTOS
     ${CMAKE_SOURCE_DIR}/hal/uart
+    ${CMAKE_SOURCE_DIR}/hal/led
 )
     
 

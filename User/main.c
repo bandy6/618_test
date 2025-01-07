@@ -24,7 +24,7 @@
 #include "bsp_led.h"
 #include "FreeRTOS.h"
 #include "task.h"
-#include "uart.h"
+#include "bsp_uart.h"
 
 TaskHandle_t StartTask_Handler;			// 任务句柄
 TaskHandle_t UartTask_Handler;			// 任务句柄
